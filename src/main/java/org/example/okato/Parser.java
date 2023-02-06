@@ -5,28 +5,66 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 public class Parser {
-    public void pars(String link) {
+
+    public Document getPage(String okatoCode) {
         try {
-            Document document = Jsoup.connect(link).get();
+            StringBuilder link = getFullCode(okatoCode);
+            link = new StringBuilder("https://classinform.ru/okato/" + link + ".html");
+            return Jsoup.connect(link.toString()).get();
+        } catch (Exception e) {
+            System.out.println(okatoCode + " Error");
+            return null;
+        }
+    }
+
+    public StringBuilder getFullCode(String okatoCode) {
+        StringBuilder fullCode = new StringBuilder(okatoCode);
+        while (fullCode.length() < 11) {
+            fullCode.append("0");
+        }
+        return fullCode;
+    }
+
+    public String getDocumentOkato(String okatoCode) {
+        try {
+            Document document = getPage(okatoCode);
+            Elements elementsDocument = document.select("em div.four_fifth");
+            String textElement;
+            for (int i = 0; i < elementsDocument.size(); i++) {
+                textElement = elementsDocument.get(i).text();
+                return textElement;
+            }
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
+        return null;
+    }
+
+    public String getParentCodeOkato(String okatoCode) {
+        try {
+            Document document = getPage(okatoCode);
             Elements elementsDocument = document.select("div.one_fifth");
             String textElement;
             for (int i = 1; i < elementsDocument.size(); i++) {
                 textElement = elementsDocument.get(i).text();
-                textElement = textElement.replace("-","").replace(" ","");
-                if (textElement.equals("ОКАТО")){
-                    break;
+                if (textElement.equals("ОКАТО")) {
+                    String result = elementsDocument.get(i - 1).text().replace("-", "").replace(" ", "");
+                    result = String.valueOf(getFullCode(result));
+                    return result;
                 }
-                System.out.println(textElement);
             }
-            System.out.println();
         } catch (Exception e) {
-            System.out.println(link + " Error");
+            System.out.println("Error");
         }
+        return null;
     }
 
     public static void main(String[] args) {
         Parser parser = new Parser();
-        parser.pars("https://classinform.ru/okato/07401368000.html");
-
+        String okatoCode = "07401360000";
+        String parentCodeOkato = parser.getParentCodeOkato(okatoCode);
+        System.out.println(parentCodeOkato);
+        String document = parser.getDocumentOkato(okatoCode);
+        System.out.println(document);
     }
 }

@@ -7,12 +7,12 @@ public class Okato {
     private String codeLocalityMo;
     private String fullName;
     private String name;
-
     private String additionalInformation;
     private String description;
     private String okato;
     private String parentOkato;
     private String startDate;
+    private String initiationDate;
     private String endDate;
     private String document;
     private String newOkato;
