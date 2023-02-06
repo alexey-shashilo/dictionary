@@ -62,16 +62,28 @@ public class Parser {
         return okatoCode;
     }
 
+    public Okato pars(Okato okato) {
+        String okatoCode = okato.getOkatoCode();
+        okato.setParentOkatoCode(getParentCodeOkato(okatoCode));
+        okato.setDocument(getDocumentOkato(okatoCode));
+        return okato;
+    }
 
     public static void main(String[] args) {
         Parser parser = new Parser();
-        String okatoCode = "07401368000";
-
-        String parentCodeOkato = parser.getParentCodeOkato(okatoCode);
-        String document = parser.getDocumentOkato(okatoCode);
-
-        System.out.println(parentCodeOkato);
-        System.out.println(document);
-
+        Okato okato = new Okato("07",
+                "401",
+                "360",
+                "000",
+                1,
+                "Внутригородские районы г Ставрополя/",
+                null,
+                null,
+                "442",
+                2,
+                "10.09.2021",
+                "01.01.2022");
+        parser.pars(okato);
+        System.out.println(okato);
     }
 }
