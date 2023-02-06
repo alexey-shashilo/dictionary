@@ -46,17 +46,21 @@ public class Parser {
             for (int i = 1; i < elementsDocument.size(); i++) {
                 textElement = elementsDocument.get(i).text();
                 if (textElement.equals("ОКАТО")) {
-                    String result = elementsDocument.get(i - 1).text().replace("-", "").replace(" ", "");
+                    String result = elementsDocument.
+                            get(i - 1).
+                            text().
+                            replace("-", "").
+                            replace(" ", "");
                     result = String.valueOf(getFullCode(result));
                     return result;
                 }
             }
+            return null;
         } catch (Exception e) {
             System.out.println("Error");
         }
-        return null;
+        return okatoCode;
     }
-
 
 
     public static void main(String[] args) {
