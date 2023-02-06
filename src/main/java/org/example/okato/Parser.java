@@ -13,8 +13,8 @@ public class Parser {
             return Jsoup.connect(link.toString()).get();
         } catch (Exception e) {
             System.out.println(okatoCode + " Error");
-            return null;
         }
+        return null;
     }
 
     public StringBuilder getFullCode(String okatoCode) {
@@ -29,10 +29,8 @@ public class Parser {
         try {
             Document document = getPage(okatoCode);
             Elements elementsDocument = document.select("em div.four_fifth");
-            String textElement;
-            for (int i = 0; i < elementsDocument.size(); i++) {
-                textElement = elementsDocument.get(i).text();
-                return textElement;
+            for (org.jsoup.nodes.Element element : elementsDocument) {
+                return element.text();
             }
         } catch (Exception e) {
             System.out.println("Error");
@@ -59,12 +57,17 @@ public class Parser {
         return null;
     }
 
+
+
     public static void main(String[] args) {
         Parser parser = new Parser();
-        String okatoCode = "07401360000";
+        String okatoCode = "07401368000";
+
         String parentCodeOkato = parser.getParentCodeOkato(okatoCode);
-        System.out.println(parentCodeOkato);
         String document = parser.getDocumentOkato(okatoCode);
+
+        System.out.println(parentCodeOkato);
         System.out.println(document);
+
     }
 }
